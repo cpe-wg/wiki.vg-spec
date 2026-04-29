@@ -1,0 +1,12 @@
+input-file: "src/index.wiki"
+output-file: "build/html/index.html"
+from: "mediawiki"
+to: "html"
+standalone: true
+table-of-contents: true
+metadata:
+    title: "Classic Protocol Extension"
+include-after-body:
+    - "src/html/footer.html"
+css:
+    - "/style.css"

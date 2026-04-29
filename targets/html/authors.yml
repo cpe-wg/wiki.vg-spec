@@ -1,0 +1,10 @@
+input-file: "AUTHORS"
+output-file: "build/html/authors.html"
+from: "markdown"
+to: "html"
+standalone: true
+table-of-contents: true
+metadata:
+    title: "CPE Authors"
+css:
+    - "/style.css"
