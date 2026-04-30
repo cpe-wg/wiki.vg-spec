@@ -27,7 +27,10 @@ Custom clients that plan to add support: [http://charged-miners.com/ Charged Min
 ==Negotiation==
 When CPE-capable client connects to a CPE-capable server, a brief negotiation needs to happen before any extensions are used. Client and server declare their capabilities and determine which extensions are mutually supported. '''All CPE-capable software is required to support this.'''
 
-[[File:CPE_Negotiation.png|frame|right]]
+<div class="right">
+[[File:img/CPE_Negotiation.png|Sequence diagram of a CPE handshake.]]
+</div>
+
 '''Client behavior''': Extended clients must use magic number of <code>0x42</code> (<code>66</code> decimal) for the padding byte of the [[Minecraft Wiki:Projects/wiki.vg merge/Classic_Protocol#Client_.E2.86.92_Server_packets|'''''PlayerIdentification''''']] packet. It must then await a response. If server responds with any packet other than '''''ExtInfo''''', client must assume that the server does NOT support CPE. If the server responds with an '''''ExtInfo''''' packet, client must parse it and any '''''ExtEntry''''' packets that follow. Client must then compare its locally-supported set of extensions with the list of extensions provided by the server, and find an intersection of these sets. These are the mutually-supported extensions. Client must now send '''''ExtInfo''''' packet of its own, followed by a list of zero or more client-supported extensions. After sending the last of '''''ExtEntry''''' packets, client should activate all mutually-supported extensions and resume normal login procedure.
 
 '''Server behavior''': When a client connects, server must read the [[Minecraft Wiki:Projects/wiki.vg merge/Classic_Protocol#Client_.E2.86.92_Server_packets|'''''PlayerIdentification''''']] packet and check its padding byte. If this byte is set to <code>0x42</code> (<code>66</code> decimal), assume that the client supports CPE. If this byte is set to any other value, assume that the client does NOT support CPE.
@@ -160,7 +163,9 @@ Used to add support for custom block types. Custom block IDs start at 50 (0x32).
 
 <h4>Blocks in support level 1</h4>
 Client must be able to receive/render all 16 custom blocks to claim support. Server must be able to receive/store all 16 custom blocks to claim support.
-[[File:CPE_CustomBlocks_Level1.png]]
+
+[[File:img/CPE_CustomBlocks_Level1.png|Recommended appearance of the new blocks, increasing in ID left to right, top to bottom.]]
+
 {| class="wikitable"
 !Block name
 !Block ID
@@ -954,7 +959,10 @@ Negative value (e.g. <code>-1</code>) means that the client should use its defau
 |}
 
 ===MessageTypes===
-[[Image:Messagetypes.PNG|right|700px|Examples of all possible MessageTypes.]]
+<div class="right">
+[[Image:img/Messagetypes.png|700px|Examples of all possible MessageTypes.]]
+</div>
+
 This extension adds new ways of presenting messages in the client.
 
 '''Motivation''': To enhance the display of announcements and status information, and to reduce chat clutter.

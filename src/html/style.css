@@ -10,7 +10,7 @@ td, th {
 th {
     background-color: #eee;
 }
-code:not(.sourceCode),pre.sourceCode {
+code:not(.sourceCode),pre.sourceCode,figure {
     background: white;
     border: 1px solid lightgrey;
     padding: 1px;
@@ -60,3 +60,7 @@ footer {
     margin-top: 2em;
     text-align: center;
 }
+
+/* Figures */
+.right { float: right; }
+figcaption { margin: 0.2em; }
