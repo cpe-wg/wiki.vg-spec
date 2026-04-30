@@ -9,4 +9,4 @@ metadata:
 include-after-body:
     - "src/html/footer.html"
 css:
-    - "/style.css"
+    - "style.css"
