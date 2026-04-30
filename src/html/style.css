@@ -10,7 +10,7 @@ td, th {
 th {
     background-color: #eee;
 }
-code {
+code:not(.sourceCode),pre.sourceCode {
     background: white;
     border: 1px solid lightgrey;
     padding: 1px;
