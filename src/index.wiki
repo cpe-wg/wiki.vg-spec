@@ -2,17 +2,7 @@
 
 Extensions are designed to keep extended clients and servers compatible with standard clients and servers. Standard clients and extended clients can play on the same server side-by-side. Extensions are designed to be modular: custom clients and servers can selectively implement any subset of extensions, and only mutually-supported extensions will be used.
 
-{| class="wikitable" style="margin:10px 10%;border: 1px solid #aaa;border-left:10px solid #f28500;background:#fbfbfb;width:80%;font-size:110%"
-|style="padding:10px"|'''This specification has not yet been finalized, and is subject to change.'''
-Last revision: 11 May 2025.
-Keep an eye on [[Minecraft Wiki:Projects/wiki.vg merge/Classic Protocol Extension/History|the history subpage]] for a chronology of changes.
-|}
-{| class="wikitable" style="margin:10px 10%;border: 1px solid #aaa;border-left:10px solid #3dc238;background:#fbfbfb;width:80%;font-size:110%"
-|style="padding:10px"|'''Do you have an idea for an extension? Please post it on the [[Minecraft Wiki:Projects/wiki.vg merge/Classic_Protocol_Extension/Proposals|Proposals]] subpage where it can safely be ignored.'''
-|}
-
 ==Support==
-''See [[Minecraft Wiki:Projects/wiki.vg merge/Classic Server List|classic server list]] for a detailed table.''
 
 Custom servers that fully support CPE: [https://github.com/UnknownShadow200/MCGalaxy MCGalaxy] [https://github.com/123DMWM/ProCraft ProCraft]
 
@@ -95,9 +85,6 @@ Server must immediately reply to CPE clients with an '''''ExtInfo''''' packet, f
 
 ==Extensions==
 '''''Note:''''' The section heading is the name of the extension. Packet names are not same as extension names. For example, the first extension listed here is named "ClickDistance" and not "SetClickDistance".
-{| class="wikitable" style="margin:10px 10%;border: 1px solid #aaa;border-left:10px solid #3dc238;background:#fbfbfb;width:80%;font-size:110%"
-|style="padding:10px"|'''Do you have an idea for an extension? Please post it on the [[Minecraft Wiki:Projects/wiki.vg merge/Classic_Protocol_Extension/Proposals|Proposals]] subpage.'''
-|}
 
 ===ClickDistance===
 Used to extend or restrict the distance at which client may click blocks, controlled by the server. Click range is given in player-space units (32 units per block). In Minecraft Classic, the default range is 160.
