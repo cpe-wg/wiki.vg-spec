@@ -7,16 +7,12 @@ on GitHub Pages and similiar hosts.
 
 You need pandoc and GNU Make. On Debian:
 
-```
     # apt install pandoc make
-```
 
 Building Instructions
 ---------------------
 
 Use GNU Make to run the 'html' target
 
-```
     $ make html
-```
 
