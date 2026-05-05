@@ -7,4 +7,4 @@ table-of-contents: true
 metadata:
     title: "CPE Authors"
 css:
-    - "/style.css"
+    - "style.css"
