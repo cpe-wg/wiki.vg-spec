@@ -1,0 +1,27 @@
+name: CreativeCommons Attribution Removal
+description: Request a removal of Attribution per CC-BY-SA terms.
+title: "Attribution Removal Request"
+labels: ["compliance"]
+assignees:
+    - jshtab
+type: task
+body:
+    - type: input
+      id: name
+      attributes:
+        label: Name to be removed
+        description: The name your work was attributed to, exactly as it appears in the AUTHORS file.
+      validations:
+        required: true
+    - type: checkboxes
+      id: certification
+      attributes:
+        label: Certification
+        description: Read and agree to all statements to submit your request.
+        options:
+          - label: I swear, under penalty of perjury, that the following statement is true: 
+              I am the Licensor named above, or the authorized agent thereof, and pursuant to
+              Section 4(a) of the Creative Commons Attribution-NonCommercial-ShareAlike 3.0
+              Unported License, I request that name above be removed from all attribution
+              statements, including but not limited to the AUTHORS file.
+            required: True
