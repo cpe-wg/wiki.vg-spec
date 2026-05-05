@@ -19,7 +19,8 @@ body:
         label: Certification
         description: Read and agree to all statements to submit your request.
         options:
-          - label: I swear, under penalty of perjury, that the following statement is true: 
+          - label: >-
+              I swear, under penalty of perjury, that the following statement is true:
               I am the Licensor named above, or the authorized agent thereof, and pursuant to
               Section 4(a) of the Creative Commons Attribution-NonCommercial-ShareAlike 3.0
               Unported License, I request that name above be removed from all attribution
