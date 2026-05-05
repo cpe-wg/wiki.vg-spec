@@ -1,0 +1,9 @@
+
+# Licenses and legal statements
+LICENSE* @jshtab
+COPYING @jshtab
+AUTHORS @jshtab
+/src/html/footer.html @jshtab
+
+# GitHub configuration
+/.github/ @jshtab
