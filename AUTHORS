@@ -1,7 +1,7 @@
-This specification is a copy of the original Classic Protocol Extension
+This specification is based on the original Classic Protocol Extension
 initially published on wiki.vg, but re-published on [minecraft.wiki].
 
-This repository is based on [revision 3497125], made on March 25th, 2026
+This edition is based on [revision 3497125], made on March 25th, 2026
 and accessed on April 29th, 2026. At that time, the server attributed
 the article to the following users:
 
@@ -39,5 +39,14 @@ the article to the following users:
 * VlOd
 * 727021
 
+The authors listed here do not necessarily endorse, approve of, or have any
+involvement in the content of this version of the specification. Their work is
+used under a [public license][CC-BY-NC] without their specific knowledge.
+
+If you are listed in this file, you are entitled to have your attribution removed.
+[Make an issue](https://github.com/cpe-wg/wiki.vg-spec/issues/new?template=cc-attribution.yml)
+on GitHub to exercise this right.
+
 [minecraft.wiki]:  https://minecraft.wiki/w/Minecraft_Wiki:Projects/wiki.vg_merge/Classic_Protocol_Extension
 [revision 3497125]: https://minecraft.wiki/w/Minecraft_Wiki:Projects/wiki.vg_merge/Classic_Protocol_Extension?oldid=3497125
+[CC-BY-NC]: https://creativecommons.org/licenses/by-sa/3.0/
