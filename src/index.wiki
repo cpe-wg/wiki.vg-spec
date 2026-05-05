@@ -21,9 +21,9 @@ When CPE-capable client connects to a CPE-capable server, a brief negotiation ne
 [[File:img/CPE_Negotiation.png|Sequence diagram of a CPE handshake.]]
 </div>
 
-'''Client behavior''': Extended clients must use magic number of <code>0x42</code> (<code>66</code> decimal) for the padding byte of the [[Minecraft Wiki:Projects/wiki.vg merge/Classic_Protocol#Client_.E2.86.92_Server_packets|'''PlayerIdentification''']] packet. It must then await a response. If server responds with any packet other than '''ExtInfo''', client must assume that the server does NOT support CPE. If the server responds with an '''ExtInfo''' packet, client must parse it and any '''ExtEntry''' packets that follow. Client must then compare its locally-supported set of extensions with the list of extensions provided by the server, and find an intersection of these sets. These are the mutually-supported extensions. Client must now send '''ExtInfo''' packet of its own, followed by a list of zero or more client-supported extensions. After sending the last of '''ExtEntry''' packets, client should activate all mutually-supported extensions and resume normal login procedure.
+'''Client behavior''': Extended clients must use magic number of <code>0x42</code> (<code>66</code> decimal) for the padding byte of the [https://minecraft.wiki/w/Classic_server_protocol#Client_.E2.86.92_server_packets '''PlayerIdentification'''] packet. It must then await a response. If server responds with any packet other than '''ExtInfo''', client must assume that the server does NOT support CPE. If the server responds with an '''ExtInfo''' packet, client must parse it and any '''ExtEntry''' packets that follow. Client must then compare its locally-supported set of extensions with the list of extensions provided by the server, and find an intersection of these sets. These are the mutually-supported extensions. Client must now send '''ExtInfo''' packet of its own, followed by a list of zero or more client-supported extensions. After sending the last of '''ExtEntry''' packets, client should activate all mutually-supported extensions and resume normal login procedure.
 
-'''Server behavior''': When a client connects, server must read the [[Minecraft Wiki:Projects/wiki.vg merge/Classic_Protocol#Client_.E2.86.92_Server_packets|'''PlayerIdentification''']] packet and check its padding byte. If this byte is set to <code>0x42</code> (<code>66</code> decimal), assume that the client supports CPE. If this byte is set to any other value, assume that the client does NOT support CPE.
+'''Server behavior''': When a client connects, server must read the [https://minecraft.wiki/w/Classic_server_protocol#Client_.E2.86.92_server_packets '''PlayerIdentification'''] packet and check its padding byte. If this byte is set to <code>0x42</code> (<code>66</code> decimal), assume that the client supports CPE. If this byte is set to any other value, assume that the client does NOT support CPE.
 
 Server must immediately reply to CPE clients with an '''ExtInfo''' packet, followed by zero or more '''ExtEntry''' packets, and await a response from the client. Client will respond with one '''ExtInfo''' and zero or more '''ExtEntry''' packets. Server must then compare its locally-supported set of extensions with the list of extensions provided by the client, and find an intersection of these sets. These are the mutually-supported extensions. After receiving the last of '''ExtEntry''' packets, server should activate all mutually-supported extensions and resume normal login procedure.
 
@@ -121,9 +121,9 @@ Used to add support for custom block types. Custom block IDs start at 50 (0x32).
 
 '''Motivation''': Adding new visually distinct blocks, to enhance Classic players' experience.
 
-'''Client behavior''': Client must expect a '''CustomBlockSupportLevel''' packet from a compatible server immediately after sending the last '''ExtEntry''' packet. It should then reply with its own '''CustomBlockSupportLevel''' packet, containing its actual support level. Client must then use the lower of the two levels in operation. Client must not send any block types that are not defined by the current support level. Client should expect [[Minecraft Wiki:Projects/wiki.vg merge/Classic_Protocol#Client_.E2.86.92_Server_packets|'''ServerIdentification''']] packet only AFTER sending its '''CustomBlockSupportLevel''' packet.
+'''Client behavior''': Client must expect a '''CustomBlockSupportLevel''' packet from a compatible server immediately after sending the last '''ExtEntry''' packet. It should then reply with its own '''CustomBlockSupportLevel''' packet, containing its actual support level. Client must then use the lower of the two levels in operation. Client must not send any block types that are not defined by the current support level. Client should expect [https://minecraft.wiki/w/Classic_server_protocol#Client_.E2.86.92_server_packets '''ServerIdentification'''] packet only AFTER sending its '''CustomBlockSupportLevel''' packet.
 
-'''Server behavior''': Server must send a '''CustomBlockSupportLevel''' packet to compatible clients immediately after receiving the last '''ExtEntry''' packet from the client. It should then wait to receive a '''CustomBlockSupportLevel''' packet from the client before sending the [[Minecraft Wiki:Projects/wiki.vg merge/Classic_Protocol#Client_.E2.86.92_Server_packets|'''ServerIdentification''']] packet. Server must then use the lower of the two levels in operation. If this level is lower than the server's, it has to filter data sent to the client, to make sure that the client never receives any block types that it does not support. Each level will define what substitutions to use.
+'''Server behavior''': Server must send a '''CustomBlockSupportLevel''' packet to compatible clients immediately after receiving the last '''ExtEntry''' packet from the client. It should then wait to receive a '''CustomBlockSupportLevel''' packet from the client before sending the [https://minecraft.wiki/w/Classic_server_protocol#Client_.E2.86.92_server_packets '''ServerIdentification'''] packet. Server must then use the lower of the two levels in operation. If this level is lower than the server's, it has to filter data sent to the client, to make sure that the client never receives any block types that it does not support. Each level will define what substitutions to use.
 
 
 <h4>CustomBlockSupportLevel packet</h4>
@@ -248,7 +248,7 @@ Provides a way for the client to notify the server about the blocktype that it i
 
 '''Motivation''': This allows server to know which block player is holding, for example for drawing commands, without needing to wait for the player's click. It also allows for features like [http://www.fcraft.net/wiki//Spectate /Spectate] to show what block a spectated player is holding.
 
-'''Client behavior''': When this extension is mutually supported, client should use the ''PlayerID'' field of the '''[[Minecraft Wiki:Projects/wiki.vg merge/Classic_Protocol#Client_.E2.86.92_Server_packets|PositionAndOrientation]]''' packet (currently unused) to indicate which blocktype the client is currently holding. It should be ready to accept '''HoldThis''' packets to change the block that the player is holding. If an unrecognized blocktype is given, no action is needed.
+'''Client behavior''': When this extension is mutually supported, client should use the ''PlayerID'' field of the '''[https://minecraft.wiki/w/Classic_server_protocol#Client_.E2.86.92_server_packets PositionAndOrientation]''' packet (currently unused) to indicate which blocktype the client is currently holding. It should be ready to accept '''HoldThis''' packets to change the block that the player is holding. If an unrecognized blocktype is given, no action is needed.
 
 '''Server behavior''': The server can use '''HoldThis''' packet to force the client to hold the desired block type. It should be done sparingly.
 
@@ -345,7 +345,7 @@ This extension allows the server to define "hotkeys" for certain commands.
 |}
 
 ===ExtPlayerList===
-'''Motivation''': Provides more flexibility in naming of players and loading of skins, autocompletion, and player tab-list display. Separates tracking of in-game entities (spawned player models) and names on the player list. '''ExtAddPlayerName'''/'''ExtRemovePlayerName''' packets take over managing the player names list (tab-list), and '''ExtAddEntity2'''/'''[[Minecraft Wiki:Projects/wiki.vg merge/Classic_Protocol#Server_.E2.86.92_Client_packets|DespawnPlayer]]''' packets are used only to manage in-game entities.
+'''Motivation''': Provides more flexibility in naming of players and loading of skins, autocompletion, and player tab-list display. Separates tracking of in-game entities (spawned player models) and names on the player list. '''ExtAddPlayerName'''/'''ExtRemovePlayerName''' packets take over managing the player names list (tab-list), and '''ExtAddEntity2'''/'''[https://minecraft.wiki/w/Classic_server_protocol#Server_.E2.86.92_client_packets DespawnPlayer]''' packets are used only to manage in-game entities.
 
 
 ====Version 1 (Deprecated since 28 August 2014)====
@@ -359,7 +359,7 @@ Version 2 of this extension replaces '''ExtAddEntity''' packet with '''ExtAddEnt
 When '''ExtAddPlayerName''' packet is received for an unrecognized ''NameID'', a new name must be added to the player-name list. When receiving '''ExtAddPlayerName''' packet for an already-listed ''NameID'', client must update its ''ListName'', ''GroupName'', and ''GroupRank''. Player-name list must persist when client changes worlds/maps.
 
 
-When an '''ExtAddEntity2''' packet is received, it must be treated as the '''[[Minecraft Wiki:Projects/wiki.vg merge/Classic_Protocol#Server_.E2.86.92_Client_packets|SpawnPlayer]]''' packet. A player model must be spawned in-game at the given location, with ''InGameName'' text drawn above it. Skin should be loaded using the given ''SkinName'' for a player name. When client receives '''ExtAddEntity2''' packet for an already-spawned player, a duplicate entity must not be spawned and existing entity's position must not be changed. Instead their ''InGameName'' and ''SkinName'' must be updated. If a negative ''EntityID'' is given for '''ExtAddEntity2''', client must update player's own spawn point, ''InGameName'', and ''SkinName''. The client must ignore regular '''[[Minecraft Wiki:Projects/wiki.vg merge/Classic_Protocol#Server_.E2.86.92_Client_packets|SpawnPlayer]]''' packets, if any are received.
+When an '''ExtAddEntity2''' packet is received, it must be treated as the '''[https://minecraft.wiki/w/Classic_server_protocol#Server_.E2.86.92_client_packets|SpawnPlayer]]''' packet. A player model must be spawned in-game at the given location, with ''InGameName'' text drawn above it. Skin should be loaded using the given ''SkinName'' for a player name. When client receives '''ExtAddEntity2''' packet for an already-spawned player, a duplicate entity must not be spawned and existing entity's position must not be changed. Instead their ''InGameName'' and ''SkinName'' must be updated. If a negative ''EntityID'' is given for '''ExtAddEntity2''', client must update player's own spawn point, ''InGameName'', and ''SkinName''. The client must ignore regular '''[[Minecraft Wiki:Projects/wiki.vg merge/Classic_Protocol#Server_.E2.86.92_client_packets SpawnPlayer]''' packets, if any are received.
 
 
 Player entity's skin should be loaded using the given ''SkinName''. If ''SkinName'' appears to be a player name, skin should be downloaded from the default skin server. If ''SkinName'' appears to be a full URL to a PNG image (starts with <code>http://</code> or <code>https://</code> and ends with <code>.png</code>) then skin should be downloaded from that URL. If image is correctly sized/proportioned to use as a skin for the current model, it should be used. If a blank or unrecognized value is given for ''SkinName'', or if given image could not be downloaded or used, then the default skin should be used.
@@ -368,10 +368,10 @@ Player entity's skin should be loaded using the given ''SkinName''. If ''SkinNam
 Names on the player-name list should be grouped by ''GroupName'' in the player-name list. Names within a ''GroupName'' should be sorted by ''GroupRank'' (in ascending order). Names with the same ''GroupName'' and ''GroupRank'' should be sorted alphabetically by ''ListName''. Color codes may be either drawn or stripped from ''ListName'', ''GroupName'', and ''InGameName''.
 
 
-When a standard '''[[Minecraft Wiki:Projects/wiki.vg merge/Classic_Protocol#Server_.E2.86.92_Client_packets|DespawnPlayer]]''' packet is received for a recognized ''EntityID'', player model must be removed from a world. When '''ExtRemovePlayerName''' packet is received for a recognized ''NameID'', their name must be removed from player-name list. Packets with out-of-range or unrecognized ''NameID''s must be ignored.
+When a standard '''[https://minecraft.wiki/w/Classic_server_protocol#Server_.E2.86.92_client_packets DespawnPlayer]''' packet is received for a recognized ''EntityID'', player model must be removed from a world. When '''ExtRemovePlayerName''' packet is received for a recognized ''NameID'', their name must be removed from player-name list. Packets with out-of-range or unrecognized ''NameID''s must be ignored.
 
 
-In-game entities must never be affected by '''ExtAddPlayerName''' or '''ExtRemovePlayerName''' packets. Player name list must never be affected by '''ExtAddEntity2''' or '''[[Minecraft Wiki:Projects/wiki.vg merge/Classic_Protocol#Server_.E2.86.92_Client_packets|DespawnPlayer]]''' packets.
+In-game entities must never be affected by '''ExtAddPlayerName''' or '''ExtRemovePlayerName''' packets. Player name list must never be affected by '''ExtAddEntity2''' or '''[https://minecraft.wiki/w/Classic_server_protocol#Server_.E2.86.92_client_packets DespawnPlayer]''' packets.
 
 
 <h5>Server Behavior</h5>
@@ -392,7 +392,7 @@ In-game entities must never be affected by '''ExtAddPlayerName''' or '''ExtRemov
 |Player disconnects from server
 |'''ExtRemovePlayerName'''
 |}
-Unique ''NameID'' between 0 and 255 should be assigned to every online player. When a new player connects to the server, '''ExtAddPlayerName''' must be sent. ''GroupName'' and ''GroupRank'' can be used in any way, for example to group players by map/world or rank/class/faction. Server must use '''ExtAddEntity2''' in place of standard '''[[Minecraft Wiki:Projects/wiki.vg merge/Classic_Protocol#Server_.E2.86.92_Client_packets|SpawnPlayer]]''' packet. Server should re-send '''ExtAddPlayerName''' packet, using the identical ''NameID'', when player's ''ListName'', ''GroupName'', or ''GroupRank'' change. Server must reliably send an '''ExtRemovePlayerName''' packet when the player disconnects. Color codes are permitted in ''ListName'', ''GroupName'', and ''InGameName''.
+Unique ''NameID'' between 0 and 255 should be assigned to every online player. When a new player connects to the server, '''ExtAddPlayerName''' must be sent. ''GroupName'' and ''GroupRank'' can be used in any way, for example to group players by map/world or rank/class/faction. Server must use '''ExtAddEntity2''' in place of standard '''[https://minecraft.wiki/w/Classic_server_protocol#Server_.E2.86.92_client_packets SpawnPlayer]''' packet. Server should re-send '''ExtAddPlayerName''' packet, using the identical ''NameID'', when player's ''ListName'', ''GroupName'', or ''GroupRank'' change. Server must reliably send an '''ExtRemovePlayerName''' packet when the player disconnects. Color codes are permitted in ''ListName'', ''GroupName'', and ''InGameName''.
 
 
 <h5>ExtAddPlayerName packet</h5>
@@ -527,9 +527,9 @@ This extension allows server to alter some of the colors used by the client in e
 
 '''Motivation''': To allow the server to give worlds/maps a unique feel: time-of-day, weather/climate, lighting effect, etc.
 
-'''Client behavior''': Client must check for '''EnvSetColor''' packets right before '''[[Minecraft Wiki:Projects/wiki.vg merge/Classic_Protocol#Server_.E2.86.92_Client_packets|LevelFinalize]]''' packet, and apply these changes before the map is displayed. Client must be able to read this packet at other times, but it is not required to then apply the changes immediately. If an unrecognized or unsupported ''Variable'' field is given, no action is needed. If an out-of-range color is given by the server (i.e. if any of ''Red'', ''Green'', or ''Blue'' is less than <code>0</code> or greater than <code>255</code>), then the specified ''Variable'' should be reset to its default value.
+'''Client behavior''': Client must check for '''EnvSetColor''' packets right before '''[https://minecraft.wiki/w/Classic_server_protocol#Server_.E2.86.92_client_packets LevelFinalize]''' packet, and apply these changes before the map is displayed. Client must be able to read this packet at other times, but it is not required to then apply the changes immediately. If an unrecognized or unsupported ''Variable'' field is given, no action is needed. If an out-of-range color is given by the server (i.e. if any of ''Red'', ''Green'', or ''Blue'' is less than <code>0</code> or greater than <code>255</code>), then the specified ''Variable'' should be reset to its default value.
 
-'''Server behavior''': Server should normally only use '''EnvSetColor''' packets right before the '''[[Minecraft Wiki:Projects/wiki.vg merge/Classic_Protocol#Server_.E2.86.92_Client_packets|LevelFinalize]]''' packet. To reset a variable to its default value, the server should send a packet with value <code>-1</code> for ''Red'', ''Green'', and ''Blue''.
+'''Server behavior''': Server should normally only use '''EnvSetColor''' packets right before the '''[https://minecraft.wiki/w/Classic_server_protocol#Server_.E2.86.92_client_packets LevelFinalize]''' packet. To reset a variable to its default value, the server should send a packet with value <code>-1</code> for ''Red'', ''Green'', and ''Blue''.
 
 
 <h4>EnvSetColor packet</h4>
@@ -581,7 +581,7 @@ This extension allows server to alter some of the colors used by the client in e
 
 '''Coordinates''': {''StartX'',''StartY'',''StartZ''} are coordinates of the block inside the selection that is closest to the map origin. {''EndX'',''EndY'',''EndZ''} are coordinates of the block inside the selection that is furthest from the map origin. Therefore, the resulting selection has dimensions {''EndX''-''StartX''+1, ''EndY''-''StartY''+1, ''EndZ''-''StartZ''+1).
 
-'''Client behavior''': Client should be ready to receive '''MakeSelection''' packets any time after '''[[Minecraft Wiki:Projects/wiki.vg merge/Classic_Protocol#Server_.E2.86.92_Client_packets|LevelFinalize]]''' packet. Upon receiving the packet, a translucent cuboid should appear in the world. The cuboid may feature a plain or "grid" texture. Selections that extend outside the map may be either ignored or clipped to fit. Selections with inconsistent coordinates (e.g. where ''StartX''<''EndX'') may either be ignored or re-ordered. Out-of-range values for ''Red'', ''Green'', ''Blue'', and ''Opacity'' should be clipped to fit the valid range. Supporting ''Opacity'' is optional: the client may opt to provide fixed opacity instead. When map changes (i.e. when '''[[Minecraft Wiki:Projects/wiki.vg merge/Classic_Protocol#Server_.E2.86.92_Client_packets|LevelInitialize]]''' packet is received), all existing selections should be removed. '''RemoveSelection''' packets that refer to non-existent ''SelectionID''s should be ignored.
+'''Client behavior''': Client should be ready to receive '''MakeSelection''' packets any time after '''[https://minecraft.wiki/w/Classic_server_protocol#Server_.E2.86.92_client_packets|LevelFinalize]]''' packet. Upon receiving the packet, a translucent cuboid should appear in the world. The cuboid may feature a plain or "grid" texture. Selections that extend outside the map may be either ignored or clipped to fit. Selections with inconsistent coordinates (e.g. where ''StartX''<''EndX'') may either be ignored or re-ordered. Out-of-range values for ''Red'', ''Green'', ''Blue'', and ''Opacity'' should be clipped to fit the valid range. Supporting ''Opacity'' is optional: the client may opt to provide fixed opacity instead. When map changes (i.e. when '''[[Minecraft Wiki:Projects/wiki.vg merge/Classic_Protocol#Server_.E2.86.92_client_packets LevelInitialize]''' packet is received), all existing selections should be removed. '''RemoveSelection''' packets that refer to non-existent ''SelectionID''s should be ignored.
 
 '''Server behavior''': All given coordinates must be contained within the map. End coordinates should be higher or equal than start coordinates.
 
@@ -693,9 +693,9 @@ This extension allows the server to instruct the player that certain block types
 
 '''Motivation''': To prevent players from inadvertently placing or removing prohibited block types (e.g. water, lava, grass, admincrete), before it even reaches the server.
 
-'''Client behavior:''' Client should prevent placement of prohibited block types (by graying out or hiding blocks in block-selection screen, or any other effective means). Client should prevent player from deleting prohibited block types. Client must be ready to receive '''SetBlockPermission''' packet after map load ('''[[Minecraft Wiki:Projects/wiki.vg merge/Classic_Protocol#Server_.E2.86.92_Client_packets|LevelFinalize]]''' packet). Permission changes should take effect as soon as packet is received. Admincrete (solid block) permissions set by '''SetBlockPermission''' must always override permission set by '''[[Minecraft Wiki:Projects/wiki.vg merge/Classic_Protocol#Server_.E2.86.92_Client_packets|ServerIdentification]]''' and '''[[Minecraft Wiki:Projects/wiki.vg merge/Classic_Protocol#Server_.E2.86.92_Client_packets|UpdateUserType]]''' packets. If ''BlockType'' is set to <code>0</code>, the client behaviour is undefined. Permissions must persist between map changes. Client may optionally warn the player attempting to place/delete prohibited blocks via sound effect, visual effect, chat message, etc.
+'''Client behavior:''' Client should prevent placement of prohibited block types (by graying out or hiding blocks in block-selection screen, or any other effective means). Client should prevent player from deleting prohibited block types. Client must be ready to receive '''SetBlockPermission''' packet after map load ('''[https://minecraft.wiki/w/Classic_server_protocol#Server_.E2.86.92_client_packets|LevelFinalize]]''' packet). Permission changes should take effect as soon as packet is received. Admincrete (solid block) permissions set by '''SetBlockPermission''' must always override permission set by '''[[Minecraft Wiki:Projects/wiki.vg merge/Classic_Protocol#Server_.E2.86.92_client_packets|ServerIdentification]]''' and '''[[Minecraft Wiki:Projects/wiki.vg merge/Classic_Protocol#Server_.E2.86.92_client_packets UpdateUserType]''' packets. If ''BlockType'' is set to <code>0</code>, the client behaviour is undefined. Permissions must persist between map changes. Client may optionally warn the player attempting to place/delete prohibited blocks via sound effect, visual effect, chat message, etc.
 
-'''Server behavior:''' Server may send '''SetBlockPermission''' packets any time after map load ('''[[Minecraft Wiki:Projects/wiki.vg merge/Classic_Protocol#Server_.E2.86.92_Client_packets|LevelFinalize]]''' packet). Any valid block ID may be specified for ''BlockType'', including custom blocks (if [[#CustomBlocks|CustomBlocks extension]] is mutually supported). Server must not assume that client is compliant/obedient, and server must still verify each '''[[Minecraft Wiki:Projects/wiki.vg merge/Classic_Protocol#Server_.E2.86.92_Client_packets|SetBlock]]''' packet coming from the client. What to do with non-complying clients (kick or warn) is up to you.
+'''Server behavior:''' Server may send '''SetBlockPermission''' packets any time after map load ('''[https://minecraft.wiki/w/Classic_server_protocol#Server_.E2.86.92_client_packets|LevelFinalize]]''' packet). Any valid block ID may be specified for ''BlockType'', including custom blocks (if [[#CustomBlocks|CustomBlocks extension]] is mutually supported). Server must not assume that client is compliant/obedient, and server must still verify each '''[[Minecraft Wiki:Projects/wiki.vg merge/Classic_Protocol#Server_.E2.86.92_client_packets SetBlock]''' packet coming from the client. What to do with non-complying clients (kick or warn) is up to you.
 
 
 <h4>SetBlockPermission packet</h4>
@@ -845,9 +845,9 @@ This extension allows the server to trigger special weather conditions (like rai
 
 '''Motivation''': To allow the server to give worlds/maps a unique feel with weather effects, e.g. for adventure maps.
 
-'''Client behavior''': Client must be able to receive '''EnvWeather''' packets at any time after the first '''[[Minecraft Wiki:Projects/wiki.vg merge/Classic_Protocol#Server_.E2.86.92_Client_packets|LevelDataChunk]]''' packet is received, and apply these changes immediately. If an unrecognized or unsupported ''WeatherType'' field is given, no action is needed.
+'''Client behavior''': Client must be able to receive '''EnvWeather''' packets at any time after the first '''[https://minecraft.wiki/w/Classic_server_protocol#Server_.E2.86.92_client_packets LevelDataChunk]''' packet is received, and apply these changes immediately. If an unrecognized or unsupported ''WeatherType'' field is given, no action is needed.
 
-'''Server behavior''': Server may send '''EnvSetColor''' packets to connected clients at any time after the first '''[[Minecraft Wiki:Projects/wiki.vg merge/Classic_Protocol#Server_.E2.86.92_Client_packets|LevelDataChunk]]''' packet is sent.
+'''Server behavior''': Server may send '''EnvSetColor''' packets to connected clients at any time after the first '''[https://minecraft.wiki/w/Classic_server_protocol#Server_.E2.86.92_client_packets LevelDataChunk]''' packet is sent.
 
 
 <h4>EnvSetWeatherType packet</h4>
@@ -881,9 +881,9 @@ This extension allows the server to control cheats/hacks in the client.
 
 '''Motivation''': To allow fine-grained control over cheats/hacks on multi-world servers.
 
-'''Client behavior''': Client must be able to receive '''HackControl''' packets at any time after the first '''[[Minecraft Wiki:Projects/wiki.vg merge/Classic_Protocol#Server_.E2.86.92_Client_packets|LevelDataChunk]]''' packet is received, and apply these changes immediately. Unrecognized or unsupported values for any field should be ignored. Clients may approximate ''JumpHeight'' by rounding down to the nearest half-block (i.e. nearest multiple of 16), if needed. If a negative value is given for ''JumpHeight'', client should reset jump height to its default setting (around <code>40</code> in vanilla Minecraft).
+'''Client behavior''': Client must be able to receive '''HackControl''' packets at any time after the first '''[https://minecraft.wiki/w/Classic_server_protocol#Server_.E2.86.92_client_packets LevelDataChunk]''' packet is received, and apply these changes immediately. Unrecognized or unsupported values for any field should be ignored. Clients may approximate ''JumpHeight'' by rounding down to the nearest half-block (i.e. nearest multiple of 16), if needed. If a negative value is given for ''JumpHeight'', client should reset jump height to its default setting (around <code>40</code> in vanilla Minecraft).
 
-'''Server behavior''': Server may send '''HackControl''' packets to connected clients at any time after the first '''[[Minecraft Wiki:Projects/wiki.vg merge/Classic_Protocol#Server_.E2.86.92_Client_packets|LevelDataChunk]]''' packet is sent.
+'''Server behavior''': Server may send '''HackControl''' packets to connected clients at any time after the first '''[https://minecraft.wiki/w/Classic_server_protocol#Server_.E2.86.92_client_packets LevelDataChunk]''' packet is sent.
 
 
 <h4>HackControl packet</h4>
@@ -954,9 +954,9 @@ This extension adds new ways of presenting messages in the client.
 
 '''Motivation''': To enhance the display of announcements and status information, and to reduce chat clutter.
 
-'''Client behavior''': When this extension is mutually supported, the ''PlayerID'' field of the standard server-to-client [[Minecraft Wiki:Projects/wiki.vg merge/Classic_Protocol#Server_.E2.86.92_Client_packets|'''Message''']] packet should be treated as a ''MessageType'' code. Unrecognized or unsupported codes may be ignored (in which case the message should be presented as a regular chat message). When connected to non-supporting servers, this field should be ignored.
+'''Client behavior''': When this extension is mutually supported, the ''PlayerID'' field of the standard server-to-client [https://minecraft.wiki/w/Classic_server_protocol#Server_.E2.86.92_client_packets '''Message'''] packet should be treated as a ''MessageType'' code. Unrecognized or unsupported codes may be ignored (in which case the message should be presented as a regular chat message). When connected to non-supporting servers, this field should be ignored.
 
-'''Server behavior''': Server may use the ''PlayerID'' field of the [[Minecraft Wiki:Projects/wiki.vg merge/Classic_Protocol#Server_.E2.86.92_Client_packets|'''Message''']] packet to set a ''MessageType''. For non-supporting clients, this field should always be set to <code>0</code>.
+'''Server behavior''': Server may use the ''PlayerID'' field of the [https://minecraft.wiki/w/Classic_server_protocol#Server_.E2.86.92_client_packets '''Message'''] packet to set a ''MessageType''. For non-supporting clients, this field should always be set to <code>0</code>.
 
 
 {| class="wikitable"
@@ -1008,7 +1008,7 @@ This extension lets the server receive details of every mouse click a player mak
 '''Client Behavior''': When this extension is mutually supported, a '''PlayerClicked''' packet should be sent to the server, as soon as reasonably possible, every time the user presses or releases a mouse button. Mouse interactions that happen while player is interacting with chat, with GUI menus, or with any other application must NOT be sent. A matching "released" event must be sent for every "pressed" event.
 
 
-High resolution up-to-date ''Yaw'' and ''Pitch'' for the player should be transmitted with every packet. If player is currently targeting another entity/player ''TargetEntityID'' fields should be set. If player is currently targeting a block (within permitted [[Minecraft Wiki:Projects/wiki.vg merge/Classic_Protocol_Extension#ClickDistance|ClickDistance]]) ''TargetBlockX'', ''TargetBlockY'', ''TargetBlockZ'', and ''TargetBlockFace'' should be set. An out-of-range value should be used for these fields when they are not in use. These packets should not be sent during level transitions (after receiving '''[[Minecraft Wiki:Projects/wiki.vg merge/Classic_Protocol#Server_.E2.86.92_Client_packets|LevelInitialize]]''' and until receiving '''[[Minecraft Wiki:Projects/wiki.vg merge/Classic_Protocol#Server_.E2.86.92_Client_packets|LevelFinalize]]''' packets).
+High resolution up-to-date ''Yaw'' and ''Pitch'' for the player should be transmitted with every packet. If player is currently targeting another entity/player ''TargetEntityID'' fields should be set. If player is currently targeting a block (within permitted [[Minecraft Wiki:Projects/wiki.vg merge/Classic_Protocol_Extension#ClickDistance|ClickDistance]]) ''TargetBlockX'', ''TargetBlockY'', ''TargetBlockZ'', and ''TargetBlockFace'' should be set. An out-of-range value should be used for these fields when they are not in use. These packets should not be sent during level transitions (after receiving '''[https://minecraft.wiki/w/Classic_server_protocol#Server_.E2.86.92_client_packets|LevelInitialize]]''' and until receiving '''[[Minecraft Wiki:Projects/wiki.vg merge/Classic_Protocol#Server_.E2.86.92_client_packets LevelFinalize]''' packets).
 
 '''Server Behavior''': Server must be ready to accept any number of '''PlayerClicked''' packets at any time after level sending has completed. What to do with this information is entirely up to the server.
 
@@ -1039,13 +1039,13 @@ High resolution up-to-date ''Yaw'' and ''Pitch'' for the player should be transm
 | class="centeralign" | short
 | class="centeralign" | 0
 | class="centeralign" | Yaw (heading) of the player.
-Same function as ''Yaw'' field of '''[[Minecraft Wiki:Projects/wiki.vg merge/Classic_Protocol#Server_.E2.86.92_Client_packets|PositionAndOrientation]]''' packet, but with more precision.
+Same function as ''Yaw'' field of '''[https://minecraft.wiki/w/Classic_server_protocol#Server_.E2.86.92_client_packets PositionAndOrientation]''' packet, but with more precision.
 |-
 | class="centeralign" | Pitch
 | class="centeralign" | short
 | class="centeralign" | 0
 | class="centeralign" | Pitch (head angle) of the player.
-Same function as ''Pitch'' field of '''[[Minecraft Wiki:Projects/wiki.vg merge/Classic_Protocol#Server_.E2.86.92_Client_packets|PositionAndOrientation]]''' packet, but with more precision.
+Same function as ''Pitch'' field of '''[https://minecraft.wiki/w/Classic_server_protocol#Server_.E2.86.92_client_packets PositionAndOrientation]''' packet, but with more precision.
 |-
 | class="centeralign" | TargetEntityID
 | class="centeralign" | byte
@@ -1096,12 +1096,12 @@ This extension allows clients to accept messages longer than 64 characters, and 
 
 '''Motivation''': To allow players to write longer messages!
 
-'''Client Behavior''': When a regular-length message is sent, a single [[Minecraft Wiki:Projects/wiki.vg merge/Classic_Protocol#Server_.E2.86.92_Client_packets|'''Message''']] packet is sent, with the unused ''PlayerID'' (aka ''MessageType'') byte set to <code>0</code>. When an extra-long message is sent, multiple [[Minecraft Wiki:Projects/wiki.vg merge/Classic_Protocol#Server_.E2.86.92_Client_packets|'''Message''']] packets are sent. All packets except the last one should have the unused byte set to <code>1</code>, meaning "this message continues in the next Message packet".
+'''Client Behavior''': When a regular-length message is sent, a single [https://minecraft.wiki/w/Classic_server_protocol#Server_.E2.86.92_client_packets|'''Message''']] packet is sent, with the unused ''PlayerID'' (aka ''MessageType'') byte set to <code>0</code>. When an extra-long message is sent, multiple [[Minecraft Wiki:Projects/wiki.vg merge/Classic_Protocol#Server_.E2.86.92_client_packets '''Message'''] packets are sent. All packets except the last one should have the unused byte set to <code>1</code>, meaning "this message continues in the next Message packet".
 
-'''Server Behavior''': Server should check the unused ''PlayerID'' (aka ''MessageType'') byte of every incoming [[Minecraft Wiki:Projects/wiki.vg merge/Classic_Protocol#Server_.E2.86.92_Client_packets|'''Message''']] packet. If the value is non-zero, it should treat it as a partial message. Partial messages should be stored and prepended to the next message received from this player, until a message with a <code>0</code> byte is received. Server should preserve leading and trailing whitespace in message packets with a <code>1</code> byte. Server should preserve leading whitespace, but trim trailing whitespace from the last packet of a partial message.
+'''Server Behavior''': Server should check the unused ''PlayerID'' (aka ''MessageType'') byte of every incoming [https://minecraft.wiki/w/Classic_server_protocol#Server_.E2.86.92_client_packets '''Message'''] packet. If the value is non-zero, it should treat it as a partial message. Partial messages should be stored and prepended to the next message received from this player, until a message with a <code>0</code> byte is received. Server should preserve leading and trailing whitespace in message packets with a <code>1</code> byte. Server should preserve leading whitespace, but trim trailing whitespace from the last packet of a partial message.
 
 
-No new packets are defined, but treatment of [[Minecraft Wiki:Projects/wiki.vg merge/Classic_Protocol#Server_.E2.86.92_Client_packets|'''Message''']] packet is altered.
+No new packets are defined, but treatment of [https://minecraft.wiki/w/Classic_server_protocol#Server_.E2.86.92_client_packets '''Message'''] packet is altered.
 
 
 ===FullCP437===
@@ -1124,12 +1124,12 @@ This extension allows servers to define new block types with custom IDs and appe
 
 '''Motivation''': To allow defining block types without client modifications. To make full use of custom textures.
 
-'''Client Behavior''': Client must be able to receive any number of '''DefineBlock''' and '''RemoveBlockDefinition''' packets at any time. Servers should prefer to send these packets during level loading (after sending'''[[Minecraft Wiki:Projects/wiki.vg merge/Classic_Protocol#Server_.E2.86.92_Client_packets|LevelInitialize]]''' and before sending '''[[Minecraft Wiki:Projects/wiki.vg merge/Classic_Protocol#Server_.E2.86.92_Client_packets|LevelFinalize]]'''), as sending these after level loading may cause the client to perform expensive operations such as redrawing the map. Client must keep track of all defined blocks between level changes or until they are individually removed with '''RemoveBlockDefinition'''.
+'''Client Behavior''': Client must be able to receive any number of '''DefineBlock''' and '''RemoveBlockDefinition''' packets at any time. Servers should prefer to send these packets during level loading (after sending'''[https://minecraft.wiki/w/Classic_server_protocol#Server_.E2.86.92_client_packets|LevelInitialize]]''' and before sending '''[[Minecraft Wiki:Projects/wiki.vg merge/Classic_Protocol#Server_.E2.86.92_client_packets LevelFinalize]'''), as sending these after level loading may cause the client to perform expensive operations such as redrawing the map. Client must keep track of all defined blocks between level changes or until they are individually removed with '''RemoveBlockDefinition'''.
 
 Client must be able to accept and render blocks as specified in '''DefineBlock''' packets. Clients must accept any valid definitions with ''BlockID'' between 1 and 255, inclusive. If a new definition is accepted for an already-defined ''BlockID'', the old definition should be replaced. If '''RemoveBlockDefinition''' is received for a non-defined ''BlockID'', it should be ignored. Otherwise, the properties of that block should be reset to their defaults.
 
 
-'''Server Behavior''': Server may send any number of '''DefineBlock''' packets at any time. Server should only use IDs of currently-defined blocks in block data sent in '''[[Minecraft Wiki:Projects/wiki.vg merge/Classic_Protocol#Server_.E2.86.92_Client_packets|LevelDataChunk]]''' packets, '''[[Minecraft Wiki:Projects/wiki.vg merge/Classic_Protocol#Server_.E2.86.92_Client_packets|SetBlock]]''' packets, or any other packets that expect block IDs.
+'''Server Behavior''': Server may send any number of '''DefineBlock''' packets at any time. Server should only use IDs of currently-defined blocks in block data sent in '''[https://minecraft.wiki/w/Classic_server_protocol#Server_.E2.86.92_client_packets|LevelDataChunk]]''' packets, '''[[Minecraft Wiki:Projects/wiki.vg merge/Classic_Protocol#Server_.E2.86.92_client_packets SetBlock]''' packets, or any other packets that expect block IDs.
 
 
 '''Texturing''': New textures are defined by altering <code>terrain.png</code> and specifying it with '''[[Minecraft Wiki:Projects/wiki.vg merge/Classic_Protocol_Extension#EnvSetMapAppearance_packet|EnvSetMapAppearance]]''' packet. '''DefineBlock''' fields ''TopTextureID'', ''SideTextureID'', and ''BottomTextureID'' refer to a tile number within <code>terrain.png</code>. Tiles are numbered 0 (top-left corner) through 255 (bottom-right corner), increasing left-to-right within each row. Refer to [https://raw.githubusercontent.com/dottych/dottych/refs/heads/main/mirrors/wikivg/ID-Overlay.png this] image for a list of standard tiles, and a graphical list of tile indices.
@@ -1401,9 +1401,9 @@ Allows servers to send a single optimised packet that contains 256 block updates
 
 '''Motivation''': Reduce bandwidth usage and increase responsiveness to clients during times of heavy block updates, e.g. for large cuboids or lava survival servers.
 
-'''Client Behavior''': When this extension is mutually supported, treat the packet in the same manner as a list of up to 256 [[Minecraft Wiki:Projects/wiki.vg merge/Classic_Protocol#Client_.E2.86.92_Server_packets|'''SetBlock''']] packets.
+'''Client Behavior''': When this extension is mutually supported, treat the packet in the same manner as a list of up to 256 [https://minecraft.wiki/w/Classic_server_protocol#Client_.E2.86.92_server_packets '''SetBlock'''] packets.
 
-'''Server Behavior''': When this extension is mutually supported, server may send '''BlockBulkUpdate''' packets to the client after the '''[[Minecraft Wiki:Projects/wiki.vg merge/Classic_Protocol#Server_.E2.86.92_Client_packets|LevelFinalize]]''' packet for the current level has been sent to the client.
+'''Server Behavior''': When this extension is mutually supported, server may send '''BlockBulkUpdate''' packets to the client after the '''[https://minecraft.wiki/w/Classic_server_protocol#Server_.E2.86.92_client_packets LevelFinalize]''' packet for the current level has been sent to the client.
 
 <h4>BulkBlockUpdate packet</h4>
 ''Server to Client''
@@ -1502,9 +1502,9 @@ An alpha/opacity of 0 is treated as '''removing''' the custom colour code from t
 ===EnvMapAspect===
 This extension allows the server to specify custom texture packs, and tweak appearance of a map.
 
-'''Client behavior:''' Client must be able to receive '''SetMapEnvUrl''' and '''SetMapEnvProperty''' packets at any time after the '''[[Minecraft Wiki:Projects/wiki.vg merge/Classic_Protocol#Server_.E2.86.92_Client_packets|LevelInitalise]]''' packet is received for a level. If the ''TexturePackURL'' field in a '''SetMapEnvUrl''' packet is blank or if the given file could not be loaded for any reason, then the texture pack should be reset to the client's default. If an unsupported block ID is given for ''SideBlock'' or ''EdgeBlock'', it should be ignored. Client should keep using the texture pack for future maps, unless specified otherwise by the server.
+'''Client behavior:''' Client must be able to receive '''SetMapEnvUrl''' and '''SetMapEnvProperty''' packets at any time after the '''[https://minecraft.wiki/w/Classic_server_protocol#Server_.E2.86.92_client_packets LevelInitalise]''' packet is received for a level. If the ''TexturePackURL'' field in a '''SetMapEnvUrl''' packet is blank or if the given file could not be loaded for any reason, then the texture pack should be reset to the client's default. If an unsupported block ID is given for ''SideBlock'' or ''EdgeBlock'', it should be ignored. Client should keep using the texture pack for future maps, unless specified otherwise by the server.
 
-'''Server behavior:''' Server may send '''SetMapEnvUrl''' and '''SetMapEnvProperty''' packets after the '''[[Minecraft Wiki:Projects/wiki.vg merge/Classic_Protocol#Server_.E2.86.92_Client_packets|LevelInitalise]]''' packet is sent for a level. Server should not use any custom block IDs unless the client declared the appropriate ''CustomBlocks'' support level. To reset the texture pack to the client's default one, server should send an '''SetMapEnvUrl''' packet with empty string for ''TexturePackURL''. To reset other properties, server should simply use the default values (listed below).
+'''Server behavior:''' Server may send '''SetMapEnvUrl''' and '''SetMapEnvProperty''' packets after the '''[https://minecraft.wiki/w/Classic_server_protocol#Server_.E2.86.92_client_packets LevelInitalise]''' packet is sent for a level. Server should not use any custom block IDs unless the client declared the appropriate ''CustomBlocks'' support level. To reset the texture pack to the client's default one, server should send an '''SetMapEnvUrl''' packet with empty string for ''TexturePackURL''. To reset other properties, server should simply use the default values (listed below).
 
 '''Block type restrictions:''' Only solid blocks are allowed to be used for ''SideBlock'' and ''EdgeBlock'' properties. Sprites (Sapling, Dandelion, Rose, BrownMushroom, RedMushroom, Rope, Fire) partial-height blocks (Slab, CobblestoneSlab, Snow), and transparent blocks (Air, Leaves, Glass) cannot be used for those fields.
 
@@ -1635,9 +1635,9 @@ Allows servers to change the properties of entities, beyond changing their posit
 
 '''Motivation''': Allow for greater customisation, while also allowing for extension to more properties in the future.
 
-'''Client Behavior''': Client must be able to receive '''SetEntityProperty''' packets after the '''[[Minecraft Wiki:Projects/wiki.vg merge/Classic_Protocol#Server_.E2.86.92_Client_packets|LevelFinalize]]''' packet for the current level has been received from the server.
+'''Client Behavior''': Client must be able to receive '''SetEntityProperty''' packets after the '''[https://minecraft.wiki/w/Classic_server_protocol#Server_.E2.86.92_client_packets LevelFinalize]''' packet for the current level has been received from the server.
 
-'''Server Behavior''': Server may send '''SetEntityProperty''' packets to the client after the '''[[Minecraft Wiki:Projects/wiki.vg merge/Classic_Protocol#Server_.E2.86.92_Client_packets|LevelFinalize]]''' packet for the current level has been sent to the client.
+'''Server Behavior''': Server may send '''SetEntityProperty''' packets to the client after the '''[https://minecraft.wiki/w/Classic_server_protocol#Server_.E2.86.92_client_packets LevelFinalize]''' packet for the current level has been sent to the client.
 
 <h4>SetEntityProperty packet</h4>
 ''Server to Client''
