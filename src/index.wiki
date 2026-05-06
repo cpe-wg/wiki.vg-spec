@@ -1126,7 +1126,7 @@ Client must be able to accept and render blocks as specified in '''DefineBlock''
 '''Server Behavior''': Server may send any number of '''DefineBlock''' packets at any time. Server should only use IDs of currently-defined blocks in block data sent in '''[https://minecraft.wiki/w/Classic_server_protocol#Server_.E2.86.92_client_packets LevelDataChunk]''' packets, '''[https://minecraft.wiki/w/Classic_server_protocol#Server_.E2.86.92_client_packets SetBlock]''' packets, or any other packets that expect block IDs.
 
 
-'''Texturing''': New textures are defined by altering <code>terrain.png</code> and specifying it with '''[[Minecraft Wiki:Projects/wiki.vg merge/Classic_Protocol_Extension#EnvSetMapAppearance_packet|EnvSetMapAppearance]]''' packet. '''DefineBlock''' fields ''TopTextureID'', ''SideTextureID'', and ''BottomTextureID'' refer to a tile number within <code>terrain.png</code>. Tiles are numbered 0 (top-left corner) through 255 (bottom-right corner), increasing left-to-right within each row. Refer to [https://raw.githubusercontent.com/dottych/dottych/refs/heads/main/mirrors/wikivg/ID-Overlay.png this] image for a list of standard tiles, and a graphical list of tile indices.
+'''Texturing''': New textures are defined by altering <code>terrain.png</code> and specifying it with '''[[#SetMapEnvUrl_packet|SetMapEnvUrl]]''' packet. '''DefineBlock''' fields ''TopTextureID'', ''SideTextureID'', and ''BottomTextureID'' refer to a tile number within <code>terrain.png</code>. Tiles are numbered 0 (top-left corner) through 255 (bottom-right corner), increasing left-to-right within each row. Refer to [https://raw.githubusercontent.com/dottych/dottych/refs/heads/main/mirrors/wikivg/ID-Overlay.png this] image for a list of standard tiles, and a graphical list of tile indices.
 
 
 '''Compatibility''': For non-supporting clients, the server must convert custom block ids into fallback block ids (e.g. 'lamp' fallbacks to lava) that lie within the client's set of supported blocks. (TODO: Define how the client should store map files with block definitions. Maybe integrate this with ClassicWorld definition?) 0 is not allowed to be redefined.
@@ -1502,7 +1502,7 @@ This extension allows the server to specify custom texture packs, and tweak appe
 
 '''Block type restrictions:''' Only solid blocks are allowed to be used for ''SideBlock'' and ''EdgeBlock'' properties. Sprites (Sapling, Dandelion, Rose, BrownMushroom, RedMushroom, Rope, Fire) partial-height blocks (Slab, CobblestoneSlab, Snow), and transparent blocks (Air, Leaves, Glass) cannot be used for those fields.
 
-<h4>SetMapEnvUrl packet</h4>
+<h4 id="SetMapEnvUrl_packet">SetMapEnvUrl packet</h4>
 ''Server to Client''
 
 {| class="wikitable"
@@ -1917,7 +1917,7 @@ Allows using more than 256 unique textures.
 '''Server Behavior''': Servers must write unsigned 16 bit integers (instead of 8 bit) for the aforementioned fields in '''DefineBlock''' and  '''DefineBlockExt''' packets. Texture IDs should be written as 8 bits modulo 256 (i.e. ''WriteU8(id & 0xFF)'') for non-supporting clients.
 
 
-'''Note:''' Displaying more textures is achieved by increasing ''terrain.png'' to be 256x512 instead of 256x256 in size (or a multiple of that). Hence, [[Minecraft Wiki:Projects/wiki.vg merge/Classic_Protocol_Extension#EnvMapAppearance|EnvMapAppearance extension]] or [[Minecraft Wiki:Projects/wiki.vg merge/Classic_Protocol_Extension#EnvMapAspect|EnvMapAspect extension]] must be mutually supported for this extension to be useful.
+'''Note:''' Displaying more textures is achieved by increasing ''terrain.png'' to be 256x512 instead of 256x256 in size (or a multiple of that). Hence, EnvMapAppearance extension (deprecated) or [[Minecraft Wiki:Projects/wiki.vg merge/Classic_Protocol_Extension#EnvMapAspect|EnvMapAspect extension]] must be mutually supported for this extension to be useful.
 
 ===SetHotbar===
 Allows servers to set the contents of a player's hotbar.
