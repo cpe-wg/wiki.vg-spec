@@ -353,7 +353,7 @@ This version of the extension has been deprecated and replaced with version 2.
 
 
 ====Version 2====
-Version 2 of this extension replaces '''ExtAddEntity''' packet with '''ExtAddEntity2''', allows using full URLs for ''SkinName'', and clarifies interaction with [[#ChangeModel|'''ChangeModel''']] extension.
+Version 2 of this extension replaces '''ExtAddEntity''' packet with '''ExtAddEntity2''', allows using full URLs for ''SkinName'', and clarifies interaction with [[#changemodel|'''ChangeModel''']] extension.
 <h5>Client Behavior</h5>
 
 When '''ExtAddPlayerName''' packet is received for an unrecognized ''NameID'', a new name must be added to the player-name list. When receiving '''ExtAddPlayerName''' packet for an already-listed ''NameID'', client must update its ''ListName'', ''GroupName'', and ''GroupRank''. Player-name list must persist when client changes worlds/maps.
@@ -695,7 +695,7 @@ This extension allows the server to instruct the player that certain block types
 
 '''Client behavior:''' Client should prevent placement of prohibited block types (by graying out or hiding blocks in block-selection screen, or any other effective means). Client should prevent player from deleting prohibited block types. Client must be ready to receive '''SetBlockPermission''' packet after map load ('''[https://minecraft.wiki/w/Classic_server_protocol#Server_.E2.86.92_client_packets LevelFinalize]''' packet). Permission changes should take effect as soon as packet is received. Admincrete (solid block) permissions set by '''SetBlockPermission''' must always override permission set by '''[https://minecraft.wiki/w/Classic_server_protocol#Server_.E2.86.92_client_packets ServerIdentification]''' and '''[https://minecraft.wiki/w/Classic_server_protocol#Server_.E2.86.92_client_packets UpdateUserType]''' packets. If ''BlockType'' is set to <code>0</code>, the client behaviour is undefined. Permissions must persist between map changes. Client may optionally warn the player attempting to place/delete prohibited blocks via sound effect, visual effect, chat message, etc.
 
-'''Server behavior:''' Server may send '''SetBlockPermission''' packets any time after map load ('''[https://minecraft.wiki/w/Classic_server_protocol#Server_.E2.86.92_client_packets LevelFinalize]''' packet). Any valid block ID may be specified for ''BlockType'', including custom blocks (if [[#CustomBlocks|CustomBlocks extension]] is mutually supported). Server must not assume that client is compliant/obedient, and server must still verify each '''[https://minecraft.wiki/w/Classic_server_protocol#Server_.E2.86.92_client_packets SetBlock]''' packet coming from the client. What to do with non-complying clients (kick or warn) is up to you.
+'''Server behavior:''' Server may send '''SetBlockPermission''' packets any time after map load ('''[https://minecraft.wiki/w/Classic_server_protocol#Server_.E2.86.92_client_packets LevelFinalize]''' packet). Any valid block ID may be specified for ''BlockType'', including custom blocks (if [[#customblocks|CustomBlocks extension]] is mutually supported). Server must not assume that client is compliant/obedient, and server must still verify each '''[https://minecraft.wiki/w/Classic_server_protocol#Server_.E2.86.92_client_packets SetBlock]''' packet coming from the client. What to do with non-complying clients (kick or warn) is up to you.
 
 
 <h4>SetBlockPermission packet</h4>
@@ -1002,7 +1002,7 @@ This extension lets the server receive details of every mouse click a player mak
 '''Client Behavior''': When this extension is mutually supported, a '''PlayerClicked''' packet should be sent to the server, as soon as reasonably possible, every time the user presses or releases a mouse button. Mouse interactions that happen while player is interacting with chat, with GUI menus, or with any other application must NOT be sent. A matching "released" event must be sent for every "pressed" event.
 
 
-High resolution up-to-date ''Yaw'' and ''Pitch'' for the player should be transmitted with every packet. If player is currently targeting another entity/player ''TargetEntityID'' fields should be set. If player is currently targeting a block (within permitted [[Minecraft Wiki:Projects/wiki.vg merge/Classic_Protocol_Extension#ClickDistance|ClickDistance]]) ''TargetBlockX'', ''TargetBlockY'', ''TargetBlockZ'', and ''TargetBlockFace'' should be set. An out-of-range value should be used for these fields when they are not in use. These packets should not be sent during level transitions (after receiving '''[https://minecraft.wiki/w/Classic_server_protocol#Server_.E2.86.92_client_packets LevelInitialize]''' and until receiving '''[https://minecraft.wiki/w/Classic_server_protocol#Server_.E2.86.92_client_packets LevelFinalize]''' packets).
+High resolution up-to-date ''Yaw'' and ''Pitch'' for the player should be transmitted with every packet. If player is currently targeting another entity/player ''TargetEntityID'' fields should be set. If player is currently targeting a block (within permitted [[#clickdistance|ClickDistance]]) ''TargetBlockX'', ''TargetBlockY'', ''TargetBlockZ'', and ''TargetBlockFace'' should be set. An out-of-range value should be used for these fields when they are not in use. These packets should not be sent during level transitions (after receiving '''[https://minecraft.wiki/w/Classic_server_protocol#Server_.E2.86.92_client_packets LevelInitialize]''' and until receiving '''[https://minecraft.wiki/w/Classic_server_protocol#Server_.E2.86.92_client_packets LevelFinalize]''' packets).
 
 '''Server Behavior''': Server must be ready to accept any number of '''PlayerClicked''' packets at any time after level sending has completed. What to do with this information is entirely up to the server.
 
@@ -1294,7 +1294,7 @@ This extension allows servers to define new block types with custom IDs and appe
 
 '''Motivation''': To allow defining custom block types that do not have minX/Y/Z values of 0, and maxX/Z values of 1.
 
-'''Client Behavior''': See the '''BlockDefinitions''' specification. This extension depends on [[Minecraft Wiki:Projects/wiki.vg merge/Classic_Protocol_Extension#BlockDefinitions|BlockDefinitions extension]], and must only be enabled if that extension is also mutually supported.
+'''Client Behavior''': See the '''BlockDefinitions''' specification. This extension depends on [[#blockdefinitions|BlockDefinitions extension]], and must only be enabled if that extension is also mutually supported.
 
 
 ====Version 1 (Deprecated since 9 May 2016)====
@@ -2308,7 +2308,7 @@ Allows servers to define custom entity models.
 | class="col1 centeralign" | Name
 | class="col2 centeralign" | string
 | class="col3 centeralign" | <code>TestModel</code>
-| class="col4 centeralign" | The name of the model (Can be used with [[#ChangeModel|'''ChangeModel''']] packet)
+| class="col4 centeralign" | The name of the model (Can be used with [[#changemodel|'''ChangeModel''']] packet)
 |- class="row3"
 | class="col1 centeralign" | Flags
 | class="col2 centeralign" | unsigned byte
@@ -2337,12 +2337,12 @@ Allows servers to define custom entity models.
 | class="col1 centeralign" | Picking bounds min
 | class="col2 centeralign" | Vector3
 | class="col3 centeralign" | <code>(-0.4,0,-0.4)</code>
-| class="col4 centeralign" | Minimum corner of the AABB around the entity for clicking detection ([[#PlayerClick|'''PlayerClick''']])
+| class="col4 centeralign" | Minimum corner of the AABB around the entity for clicking detection ([[#playerclick|'''PlayerClick''']])
 |- class="row8"
 | class="col1 centeralign" | Picking bounds max
 | class="col2 centeralign" | Vector3
 | class="col3 centeralign" | <code>(0.4,0.8,0.4)</code>
-| class="col4 centeralign" | Maximum corner of the AABB around the entity for clicking detection ([[#PlayerClick|'''PlayerClick''']])
+| class="col4 centeralign" | Maximum corner of the AABB around the entity for clicking detection ([[#playerclick|'''PlayerClick''']])
 |- class="row9"
 | class="col1 centeralign" | U scale
 | class="col2 centeralign" | unsigned short
