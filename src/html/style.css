@@ -18,6 +18,7 @@ code:not(.sourceCode),pre.sourceCode,figure {
 body {
     max-width: 120ch;
     margin: auto;
+    padding: 0 1em;
     background-color: aliceblue;
 }
 
