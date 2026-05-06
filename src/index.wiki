@@ -349,7 +349,7 @@ This extension allows the server to define "hotkeys" for certain commands.
 
 
 ====Version 1 (Deprecated since 28 August 2014)====
-This version of the extension has been deprecated and replaced with version 2. See [[Minecraft Wiki:Projects/wiki.vg merge/Classic Protocol Extension/Old Extensions|old extensions subpage]].
+This version of the extension has been deprecated and replaced with version 2.
 
 
 ====Version 2====
@@ -831,13 +831,7 @@ This extension allows the server to specify custom terrain textures, and tweak a
 
 '''Motivation''': To provide more ways to customize map appearance, including functionality that's currently provided by [http://files.worldofminecraft.com/texturing/ World of Minecraft's scheme].
 
-
-====Version 1 (Deprecated since 9 May 2016)====
-This version of the extension has been deprecated and replaced with version 2. See [[Minecraft Wiki:Projects/wiki.vg merge/Classic Protocol Extension/Old Extensions|old extensions subpage]].
-
-
-====Version 2 (Deprecated since 21 June 2017)====
-This version of the extension has been deprecated and replaced with '''EnvMapAspect'''. See [[Minecraft Wiki:Projects/wiki.vg merge/Classic Protocol Extension/Old Extensions|old extensions subpage]].
+All versions of this extension have been deprecated and replaced with [[#envmapaspect|'''EnvMapAspect''']].
 
 
 ===EnvWeatherType===
@@ -1304,7 +1298,7 @@ This extension allows servers to define new block types with custom IDs and appe
 
 
 ====Version 1 (Deprecated since 9 May 2016)====
-This version of the extension has been deprecated and replaced with version 2. See [[Minecraft Wiki:Projects/wiki.vg merge/Classic Protocol Extension/Old Extensions|old extensions subpage]].
+This version of the extension has been deprecated and replaced with version 2.
 
 
 ====Version 2====
